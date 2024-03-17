@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Cache;
+using Newtonsoft.Json;
 
 namespace Dolgozo_Nyilvantartas_Rest_Api
 {
@@ -12,11 +13,12 @@ namespace Dolgozo_Nyilvantartas_Rest_Api
     {
         static async Task Main(string[] args)
         {
-            DolgozokNyilvantartasa();
+            await DolgozokNyilvantartasa();
 
             Console.ReadKey();
         }
 
+        //Api-ra csatlakozás
         private static async Task DolgozokNyilvantartasa()
         {
             using (HttpClient client = new HttpClient())
@@ -27,18 +29,7 @@ namespace Dolgozo_Nyilvantartas_Rest_Api
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonString = await response.Content.ReadAsStringAsync();
-                        Dolgozok[] dolgozok = Dolgozok.FromJson(jsonString);
-
-                        Console.WriteLine($"Elemek száma: {dolgozok.Length}");
-                        Console.WriteLine($"Legmagasabb fizetéssel rendelkező dolgozó: {dolgozok.OrderByDescending(d => d.Salary).First().Name}");
-                        Console.WriteLine($"Fizetése: {dolgozok.OrderByDescending(d => d.Salary).First().Salary}$");
-                        Console.WriteLine($"\nMunkakörök: ");
-
-                        var munkakorok = dolgozok.GroupBy(d => d.Position).Select(g => new { Position = g.Key, Count = g.Count() });
-                        foreach (var munkakor in munkakorok)
-                        {
-                            Console.WriteLine($"\t{munkakor.Position} - {munkakor.Count}");
-                        }
+                        DolgozokNyilvantartasaLekerdezes(jsonString);
                     }
                     else
                     {
@@ -49,7 +40,24 @@ namespace Dolgozo_Nyilvantartas_Rest_Api
                 {
                     Console.WriteLine(ex.Message);
                 }
-            }   
+            }
+        }
+
+        //Lekérdezés
+        private static void DolgozokNyilvantartasaLekerdezes(string jsonString)
+        {
+            Dolgozok[] dolgozok = JsonConvert.DeserializeObject<Dolgozok[]>(jsonString);
+
+            Console.WriteLine($"Elemek száma: {dolgozok.Length}");
+            Console.WriteLine($"Legmagasabb fizetéssel rendelkező dolgozó: {dolgozok.OrderByDescending(d => d.Salary).First().Name}");
+            Console.WriteLine($"Fizetése: {dolgozok.OrderByDescending(d => d.Salary).First().Salary}$");
+            Console.WriteLine($"\nMunkakörök: ");
+
+            var munkakorok = dolgozok.GroupBy(d => d.Position).Select(g => new { Position = g.Key, Count = g.Count() });
+            foreach (var munkakor in munkakorok)
+            {
+                Console.WriteLine($"\t{munkakor.Position} - {munkakor.Count}");
+            }
         }
     }
 }
