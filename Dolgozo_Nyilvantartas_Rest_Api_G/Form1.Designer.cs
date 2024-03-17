@@ -34,7 +34,11 @@
             this.textBox_DolgozoKeresese = new System.Windows.Forms.TextBox();
             this.numericUpDown_DolgozoKeresese = new System.Windows.Forms.NumericUpDown();
             this.button_DolgozoKereseseID = new System.Windows.Forms.Button();
+            this.button_LapozasMegkezdese = new System.Windows.Forms.Button();
+            this.numericUpDown_Oldalszam = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DolgozoKeresese)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Oldalszam)).BeginInit();
             this.SuspendLayout();
             // 
             // listBox_OsszesAdat
@@ -79,17 +83,65 @@
             this.button_DolgozoKereseseID.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.button_DolgozoKereseseID.Location = new System.Drawing.Point(533, 139);
             this.button_DolgozoKereseseID.Name = "button_DolgozoKereseseID";
-            this.button_DolgozoKereseseID.Size = new System.Drawing.Size(183, 28);
+            this.button_DolgozoKereseseID.Size = new System.Drawing.Size(184, 28);
             this.button_DolgozoKereseseID.TabIndex = 4;
             this.button_DolgozoKereseseID.Text = "Dolgozó keresése (id)";
             this.button_DolgozoKereseseID.UseVisualStyleBackColor = true;
             this.button_DolgozoKereseseID.Click += new System.EventHandler(this.button_DolgozoKereseseID_Click);
+            // 
+            // button_LapozasMegkezdese
+            // 
+            this.button_LapozasMegkezdese.Location = new System.Drawing.Point(533, 209);
+            this.button_LapozasMegkezdese.Name = "button_LapozasMegkezdese";
+            this.button_LapozasMegkezdese.Size = new System.Drawing.Size(184, 28);
+            this.button_LapozasMegkezdese.TabIndex = 5;
+            this.button_LapozasMegkezdese.Text = "Lapozás megkezdése";
+            this.button_LapozasMegkezdese.UseVisualStyleBackColor = true;
+            this.button_LapozasMegkezdese.Click += new System.EventHandler(this.button_LapozasMegkezdese_Click);
+            // 
+            // numericUpDown_Oldalszam
+            // 
+            this.numericUpDown_Oldalszam.Enabled = false;
+            this.numericUpDown_Oldalszam.Location = new System.Drawing.Point(653, 245);
+            this.numericUpDown_Oldalszam.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown_Oldalszam.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_Oldalszam.Name = "numericUpDown_Oldalszam";
+            this.numericUpDown_Oldalszam.Size = new System.Drawing.Size(64, 22);
+            this.numericUpDown_Oldalszam.TabIndex = 6;
+            this.numericUpDown_Oldalszam.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown_Oldalszam.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_Oldalszam.ValueChanged += new System.EventHandler(this.numericUpDown_Oldalszam_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label1.Location = new System.Drawing.Point(533, 244);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 20);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Oldalszám:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numericUpDown_Oldalszam);
+            this.Controls.Add(this.button_LapozasMegkezdese);
             this.Controls.Add(this.button_DolgozoKereseseID);
             this.Controls.Add(this.numericUpDown_DolgozoKeresese);
             this.Controls.Add(this.textBox_DolgozoKeresese);
@@ -100,6 +152,7 @@
             this.Text = "Dolgozók Nyilvántartása";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DolgozoKeresese)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Oldalszam)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,6 +165,9 @@
         private System.Windows.Forms.TextBox textBox_DolgozoKeresese;
         private System.Windows.Forms.NumericUpDown numericUpDown_DolgozoKeresese;
         private System.Windows.Forms.Button button_DolgozoKereseseID;
+        private System.Windows.Forms.Button button_LapozasMegkezdese;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Oldalszam;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -141,5 +141,62 @@ namespace Dolgozo_Nyilvantartas_Rest_Api_G
                 }
             }
         }
+
+        //Lapozás megkezdése
+        private async void button_LapozasMegkezdese_Click(object sender, EventArgs e)
+        {
+            numericUpDown_Oldalszam.Enabled = true;
+            numericUpDown_Oldalszam.Value = 1;
+            await Lapozas((int)numericUpDown_Oldalszam.Value);
+        }
+
+        private async Task Lapozas(int oldalszam)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    string url = $"https://retoolapi.dev/Kc6xuH/data?_page={oldalszam}&_limit=10";
+                    HttpResponseMessage httpResponseMessage = await client.GetAsync(url);
+                    if (httpResponseMessage.IsSuccessStatusCode)
+                    {
+                        string jsonString = await httpResponseMessage.Content.ReadAsStringAsync();
+                        var dolgozok = JsonConvert.DeserializeObject<List<Dolgozok>>(jsonString);
+
+                        listBox_OsszesAdat.Items.Clear();
+                        if (dolgozok.Any())
+                        {
+                            listBox_OsszesAdat.Items.Clear();
+                            foreach (var dolgozo in dolgozok)
+                            {
+                                listBox_OsszesAdat.Items.Add($"{dolgozo.Id} - {dolgozo.Name} - {dolgozo.Position} - {dolgozo.Salary}$");
+                            }
+                        }
+                        else
+                        {
+                            listBox_OsszesAdat.Items.Clear();
+                            listBox_OsszesAdat.Items.Add($"Nincs adat az oldalon!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Hiba történt a csatlakozás során!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hiba történt a lapozás során: " + ex.ToString(), "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private async void numericUpDown_Oldalszam_ValueChanged(object sender, EventArgs e)
+        {
+            if (numericUpDown_Oldalszam.Enabled)
+            {
+                int oldalszam = (int)numericUpDown_Oldalszam.Value;
+                await Lapozas(oldalszam);
+            }
+        }
     }
 }
