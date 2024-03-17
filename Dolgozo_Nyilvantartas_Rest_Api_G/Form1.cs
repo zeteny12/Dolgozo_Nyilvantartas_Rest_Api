@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,6 +124,11 @@ namespace Dolgozo_Nyilvantartas_Rest_Api_G
                         {
                             listBox_OsszesAdat.Items.Add($"Nincs ilyen azonosítójú dolgozó!");
                         }
+                    }
+                    else if (responseMessage.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        listBox_OsszesAdat.Items.Clear();
+                        listBox_OsszesAdat.Items.Add($"Nincs ilyen azonosítójú dolgozó!");
                     }
                     else
                     {
