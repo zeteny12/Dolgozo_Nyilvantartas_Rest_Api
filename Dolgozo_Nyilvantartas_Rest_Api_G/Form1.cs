@@ -60,7 +60,7 @@ namespace Dolgozo_Nyilvantartas_Rest_Api_G
             }
         }
 
-        //Keresett dolgozó
+        //Keresett dolgozó név alapján
         private async void button_DolgozoKeresese_Click(object sender, EventArgs e)
         {
             string KeresettDolgozo = textBox_DolgozoKeresese.Text;
@@ -86,17 +86,52 @@ namespace Dolgozo_Nyilvantartas_Rest_Api_G
                         {
                             listBox_OsszesAdat.Items.Add("Nincs ilyen nevű dolgozó");
                         }
-                        
-                        
                     }
                     else
                     {
-                        MessageBox.Show("Hiba történt a csatlakozás során!");
+                        MessageBox.Show("Hiba történt a csatlakozás során!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Hiba történt a szűrés során: " + ex.ToString());
+                    MessageBox.Show("Hiba történt a szűrés során: " + ex.ToString(), "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        //Keresett dolgozó ID alapján
+        private async void button_DolgozoKereseseID_Click(object sender, EventArgs e)
+        {
+            int KeresettDolgozoID = (int)numericUpDown_DolgozoKeresese.Value;
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    HttpResponseMessage responseMessage = await client.GetAsync($"https://retoolapi.dev/Kc6xuH/data/{KeresettDolgozoID}");
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        string jsonString = await responseMessage.Content.ReadAsStringAsync();
+                        var dolgozo = JsonConvert.DeserializeObject<Dolgozok>(jsonString);
+
+                        listBox_OsszesAdat.Items.Clear();
+                        if (dolgozo != null)
+                        {
+                            listBox_OsszesAdat.Items.Add($"{dolgozo.Id} - {dolgozo.Name} - {dolgozo.Position} - {dolgozo.Salary}$");
+                        }
+                        else
+                        {
+                            listBox_OsszesAdat.Items.Add($"Nincs ilyen azonosítójú dolgozó!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Hiba történt a csatlakozás során!", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hiba történt a szűrés során: " + ex.ToString(), "Hiba", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
